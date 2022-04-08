@@ -151,7 +151,8 @@ function boxBase:Update()
     if ESP.Highlighted == self.Object then
        color = ESP.HighlightColor
     else
-        color = self.Color or self.ColorDynamic and self:ColorDynamic(self.Player) or ESP:GetColor(self.Object) or ESP.Color
+        color = Color3.fromRGB(255 * math.abs((self.Player.Character:FindFirstChild("Humanoid").Health - self.Player.Character:FindFirstChild("Humanoid").MaxHealth)/100),255 * math.abs((self.Player.Character:FindFirstChild("Humanoid").Health / self.Player.Character:FindFirstChild("Humanoid").MaxHealth)),0)
+	or self.Color or self.ColorDynamic and self:ColorDynamic(self.Player) or ESP:GetColor(self.Object) or ESP.Color
     end
 
     local allow = true
