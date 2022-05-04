@@ -1,3 +1,8 @@
+
+-- this was really fun to work on and update, probably sucks since i was really new to scripting then.
+
+
+
 --[[
 	-> don't waste your money on athena, or any other script. <-
 	Lunahax (Electric State DarkRP script) source release
