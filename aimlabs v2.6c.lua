@@ -1,3 +1,12 @@
+
+
+-- 2.6d is really unstable, the rewrite isnt good enough for me to release yet
+-- aimbot itself is ciazaware universial. its pretty good but randomly stops working sometimes, i have no idea how to fix this.
+-- https://github.com/zxciaz/Universal-Scripts/blob/main/Aimbot
+-- its kinda modified?? i just added a gui and a modified kiriot player esp (added color coding for health, useful in fps games)
+
+
+
 local _Main_ZnVja3lvdXJzZWxm = Instance.new("ScreenGui")
 syn.protect_gui(_Main_ZnVja3lvdXJzZWxm)
 local _Inner_d2hhdGFmdWNraW5nbmVyZA = Instance.new("ImageLabel")
