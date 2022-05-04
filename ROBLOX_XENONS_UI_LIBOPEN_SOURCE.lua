@@ -1,3 +1,6 @@
+
+-- linora better, but this is really ez to use. kninda looks ba tho...........
+
 local library = {}
 
 library.__index = library
