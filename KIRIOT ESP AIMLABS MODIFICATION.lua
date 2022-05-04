@@ -1,3 +1,9 @@
+
+-- added custom color coding for health
+-- will break if used on anything but players
+-- this is made for the aimbot so im not gonna fix it, if u wanna implement it properly do it urself ig
+
+
 --Settings--
 local ESP = {
     Enabled = false,
