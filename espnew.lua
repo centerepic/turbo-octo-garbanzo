@@ -177,7 +177,8 @@ function boxBase:Update()
     if not workspace:IsAncestorOf(self.PrimaryPart) and not self.RenderInNil then
         allow = false
     end
-    if (cam.CFrame.p - cf.p).magnitude > getgenv().ESPDistance then
+	local cft = self.PrimaryPart.CFrame
+    if (cam.CFrame.p - cft.p).magnitude > getgenv().ESPDistance then
 	allow = false
     end
     if not allow then
