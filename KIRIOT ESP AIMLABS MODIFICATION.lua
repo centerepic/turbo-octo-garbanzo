@@ -178,7 +178,7 @@ function boxBase:Update()
         allow = false
     end
 	pcall(function()
-    if (cam.CFrame.p - cf.p).magnitude > getgenv().ESPDistance
+    if (cam.CFrame.p - cf.p).magnitude > getgenv().ESPDistance then
 	allow = false
     end
 	end)
