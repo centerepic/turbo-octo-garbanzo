@@ -267,7 +267,10 @@ function EspLibrary.Init()
                 local distance = EspLibrary.GetDistance(torso.Position)
                 local canShow = onScreen and (size and position) and EspLibrary.options.enabled
                 local team, teamColor = EspLibrary.GetTeam(player)
-                local color = Color3.fromRGB(255 * math.abs((player.Character:FindFirstChild("Humanoid").Health - player.Character:FindFirstChild("Humanoid").MaxHealth)/100),255 * math.abs((player.Character:FindFirstChild("Humanoid").Health / player.Character:FindFirstChild("Humanoid").MaxHealth)),0) or Color3.new(1, 0.984313, 0)
+                local color = Color3.fromRGB(255 * math.abs((character:FindFirstChild("Humanoid").Health - character:FindFirstChild("Humanoid").MaxHealth)/100),255 * math.abs((character:FindFirstChild("Humanoid").Health / character:FindFirstChild("Humanoid").MaxHealth)),0) or EspLibrary.options.teamColor and teamColor or nil
+
+                if (EspLibrary.options.fillColor ~= nil) then
+                    color = EspLibrary.options.fillColor
                 end
 
                 if (table.find(EspLibrary.whitelist, player.Name)) then
