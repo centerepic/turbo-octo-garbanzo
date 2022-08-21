@@ -1,5 +1,12 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "Doors", HidePremium = false, SaveConfig = true, ConfigFolder = "DoorsSex"})
+local Window = OrionLib:MakeWindow({IntroText = "Doors GUI v1.2",Name = "Doors - By sashaaaaa#5351", HidePremium = false, SaveConfig = true, ConfigFolder = "DoorsSex"})
+if game.PlaceId == 6516141723 then
+    OrionLib:MakeNotification({
+        Name = "Error",
+        Content = "Please execute when in game, not in lobby.",
+        Time = 2
+    })
+end
 local VisualsTab = Window:MakeTab({
 	Name = "Visuals",
 	Icon = "rbxassetid://4483345998",
@@ -29,7 +36,7 @@ local function ApplyKeyChams(inst)
     Cham.FillColor = Color3.new(0.980392, 0.670588, 0)
     Cham.FillTransparency = 0.5
     Cham.OutlineColor = Color3.new(0.792156, 0.792156, 0.792156)
-    Cham.Parent = inst
+    Cham.Parent = game:GetService("CoreGui")
     Cham.Adornee = inst
     Cham.Enabled = OrionLib.Flags["KeyToggle"].Value
     Cham.RobloxLocked = true
@@ -77,17 +84,19 @@ VisualsTab:AddToggle({
 })
 
 local function ApplyBookChams(inst)
-    wait()
-    local Cham = Instance.new("Highlight")
-    Cham.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-    Cham.FillColor = Color3.new(0, 1, 0.749019)
-    Cham.FillTransparency = 0.5
-    Cham.OutlineColor = Color3.new(0.792156, 0.792156, 0.792156)
-    Cham.Parent = inst
-    Cham.Enabled = OrionLib.Flags["BookToggle"].Value
-    Cham.Adornee = inst
-    Cham.RobloxLocked = true
-    return Cham
+    if inst:IsDescendantOf(game:GetService("Workspace").CurrentRooms:FindFirstChild("50")) and game:GetService("ReplicatedStorage").GameData.LatestRoom.Value == 50 then
+        wait()
+        local Cham = Instance.new("Highlight")
+        Cham.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+        Cham.FillColor = Color3.new(0, 1, 0.749019)
+        Cham.FillTransparency = 0.5
+        Cham.OutlineColor = Color3.new(0.792156, 0.792156, 0.792156)
+        Cham.Parent = game:GetService("CoreGui")
+        Cham.Enabled = OrionLib.Flags["BookToggle"].Value
+        Cham.Adornee = inst
+        Cham.RobloxLocked = true
+        return Cham
+    end
 end
 
 local function ApplyEntityChams(inst)
@@ -97,7 +106,7 @@ local function ApplyEntityChams(inst)
     Cham.FillColor = Color3.new(1, 0, 0)
     Cham.FillTransparency = 0.5
     Cham.OutlineColor = Color3.new(0.792156, 0.792156, 0.792156)
-    Cham.Parent = inst
+    Cham.Parent = game:GetService("CoreGui")
     Cham.Enabled = OrionLib.Flags["FigureToggle"].Value
     Cham.Adornee = inst
     Cham.RobloxLocked = true
@@ -105,6 +114,7 @@ local function ApplyEntityChams(inst)
 end
 
 local BookCoroutine = coroutine.create(function()
+    task.wait(1)
     for i,v in pairs(game:GetService("Workspace").CurrentRooms["50"].Assets:GetDescendants()) do
         if v.Name == "LiveHintBook" then
             table.insert(BookChams,ApplyBookChams(v))
@@ -132,7 +142,7 @@ local CharTab = Window:MakeTab({
 local TargetWalkspeed
 CharTab:AddSlider({
 	Name = "Speed",
-	Min = 15,
+	Min = 0,
 	Max = 50,
 	Default = 5,
 	Color = Color3.fromRGB(255,255,255),
@@ -190,12 +200,56 @@ GameTab:AddButton({
                 wait(0.3)
                 fireproximityprompt(CurrentDoor.Lock.UnlockPrompt,0)
             end
+            if LatestRoom == 50 then
+                CurrentDoor = workspace.CurrentRooms[tostring(LatestRoom+1)]:WaitForChild("Door")
+            end
             game.Players.LocalPlayer.Character:PivotTo(CF(CurrentDoor.Door.Position))
             wait(0.3)
             CurrentDoor.ClientOpen:FireServer()
         end)
   	end    
 })
+
+GameTab:AddToggle({
+	Name = "Auto skip level",
+	Default = false,
+    Save = false,
+    Flag = "AutoSkip"
+})
+
+local AutoSkipCoro = coroutine.create(function()
+        while true do
+            task.wait()
+            pcall(function()
+            if OrionLib.Flags["AutoSkip"].Value == true and game:GetService("ReplicatedStorage").GameData.LatestRoom.Value < 100 then
+                local HasKey = false
+                local LatestRoom = game:GetService("ReplicatedStorage").GameData.LatestRoom.Value
+                local CurrentDoor = workspace.CurrentRooms[tostring(LatestRoom)]:WaitForChild("Door")
+                for i,v in ipairs(CurrentDoor.Parent:GetDescendants()) do
+                    if v.Name == "KeyObtain" then
+                        HasKey = v
+                    end
+                end
+                if HasKey then
+                    game.Players.LocalPlayer.Character:PivotTo(CF(HasKey.Hitbox.Position))
+                    task.wait(0.3)
+                    fireproximityprompt(HasKey.ModulePrompt,0)
+                    game.Players.LocalPlayer.Character:PivotTo(CF(CurrentDoor.Door.Position))
+                    task.wait(0.3)
+                    fireproximityprompt(CurrentDoor.Lock.UnlockPrompt,0)
+                end
+                if LatestRoom == 50 then
+                    CurrentDoor = workspace.CurrentRooms[tostring(LatestRoom+1)]:WaitForChild("Door")
+                end
+                game.Players.LocalPlayer.Character:PivotTo(CF(CurrentDoor.Door.Position))
+                task.wait(0.3)
+                CurrentDoor.ClientOpen:FireServer()
+            end
+        end)
+        end
+end)
+coroutine.resume(AutoSkipCoro)
+
 GameTab:AddButton({
 	Name = "No jumpscares",
 	Callback = function()
@@ -242,13 +296,22 @@ GameTab:AddButton({
         game:GetService("ReplicatedStorage").Bricks.EBF:FireServer()
   	end    
 })
+GameTab:AddButton({
+	Name = "Skip level 50",
+	Callback = function()
+        local CurrentDoor = workspace.CurrentRooms[tostring(LatestRoom+1)]:WaitForChild("Door")
+        game.Players.LocalPlayer.Character:PivotTo(CF(CurrentDoor.Door.Position))
+  	end    
+})
 GameTab:AddParagraph("Warning","You may need to open/close the panel a few times for this to work, fixing soon.")
 
 --// ok actual code starts here
 
 game:GetService("RunService").RenderStepped:Connect(function()
     pcall(function()
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = TargetWalkspeed
+        if game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
+            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/50)
+        end
     end)
 end)
 
@@ -318,7 +381,7 @@ local NotificationCoroutine = coroutine.create(function()
             if OrionLib.Flags["AvoidRushToggle"].Value == true then
                 OrionLib:MakeNotification({
                     Name = "Warning!",
-                    Content = "Avoiding rush. Please wait.",
+                    Content = "Avoiding Rush. Please wait.",
                     Time = 5
                 })
                 local OldPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
@@ -378,12 +441,4 @@ coroutine.resume(NotificationCoroutine)
 
 OrionLib:Init()
 
-if game.PlaceId == 6516141723 then
-    OrionLib:MakeNotification({
-        Name = "Error",
-        Content = "Please execute when in game, not in lobby.",
-        Time = 2
-    })
-end
 task.wait(2)
-OrionLib:Destroy()
