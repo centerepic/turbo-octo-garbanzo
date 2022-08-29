@@ -1,0 +1,43 @@
+local ltime1 = tick()
+_G.Size = Vector3.new(4,4,4)
+_G.HBEKey = "T"
+LPlayer = game.Players.LocalPlayer
+local inputService = game:GetService("UserInputService")
+_G.HBEON = false
+local DefHeadSize = game.Players.LocalPlayer.Character:WaitForChild("Head").Size
+local mt = getrawmetatable(game)
+local oIndex = mt.__index
+local oNIndex = mt.__newindex
+local Players, Uis, RService, SGui = game:GetService"Players", game:GetService"UserInputService", game:GetService"RunService", game:GetService"StarterGui";
+setreadonly(mt,false)
+local lastRender = os.clock()
+game:GetService("RunService").RenderStepped:Connect(function()
+if not ((os.clock()-lastRender)>=0.004)then return end
+lastRender = os.clock()
+NameAmount2=0
+for i, v in next, game.Players:GetPlayers()do
+if(v~=LPlayer and v.Character and v.Character:FindFirstChild("Head")and v.Character:FindFirstChild("HumanoidRootPart") and LPlayer.Character and LPlayer.Character:FindFirstChild("HumanoidRootPart"))then
+    if(_G.HBEON == true and v.Character:FindFirstChild("Head").Size~=_G.Size)then
+        v.Character.Head.Size=_G.Size
+        v.Character.Head.Transparency = 0.5
+    elseif(_G.HBEON == false and v.Character:FindFirstChild("Head").Size==_G.Size)then
+        v.Character.Head.Size=DefHeadSize
+        v.Character.Head.Transparency = 0
+    end
+end
+end
+end)
+mt.__index = newcclosure(function(tab,key)
+    if(not checkcaller() and tab:IsA("Part") and key == "Size")then
+        if(oIndex(tab,"Name") == "Head")then
+            return DefHeadSize
+        end
+    end
+return oIndex(tab,key)    
+end)
+inputService.InputBegan:Connect(function(inp)
+    if(inp.KeyCode == Enum.KeyCode[_G.HBEKey])then
+        _G.HBEON = not _G.HBEON
+    end
+end)
+print("Loaded in " .. tostring(tick() - ltime1))
