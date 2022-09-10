@@ -4,7 +4,7 @@ local Character = LocalPlayer.Character
 local V3 = Vector3.new
 local FPP = fireproximityprompt
 local Loot = {}
-local LootSpawns = game:GetService("Workspace").LootSpawns
+local LootSpawns = game:GetService("Workspace").SpawnsLoot
 local function TPTo(Position)
     Character:PivotTo(Position)
 end
