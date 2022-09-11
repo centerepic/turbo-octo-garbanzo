@@ -5,8 +5,19 @@ local V3 = Vector3.new
 local FPP = fireproximityprompt
 local Loot = {}
 local LootSpawns = game:GetService("Workspace").SpawnsLoot
+function tp(cframe)
+    local ttd = math.abs((Character.HumanoidRootPart.Position - cframe.Position).Magnitude) / 20
+    print("ttd is",ttd)
+    local info = TweenInfo.new(ttd,Enum.EasingStyle.Linear);
+    local tween,err = pcall(function()
+    local tween = tween_s:Create(plr.Character["HumanoidRootPart"],info,{CFrame=cframe});
+    tween:Play();
+    end)
+    task.wait(ttd)
+    if not tween then return err end
+end
 local function TPTo(Position)
-    Character:PivotTo(Position)
+    tp(Position)
 end
 
 local function CheckLoot(Model)
