@@ -1,9 +1,5 @@
 -- this is really messy and ineffienct, but it works i guess, feel free to improve
 
-local WebhookURL = "https://discord.com/api/webhooks/xxx"
-
-local HS = game:GetService("HttpService")
-
 game:GetService("ReplicatedStorage").RemoteEvents:Destroy() -- lazy anticheat bypass
 
 local MessageData = {["content"] = "Money - " .. tostring(game.Players.LocalPlayer.CoinAmount.Value)}
@@ -89,9 +85,7 @@ moolahfolder.ChildAdded:Connect(function(v)
         wait(game.Players.LocalPlayer:GetNetworkPing() + 0.65)
         ALPos.Position = opos
         if game.Players.LocalPlayer.CoinAmount.Value > oldM then
-            MessageData = {["content"] = "[UTG AUTOFARM] - Collected " .. tostring(game.Players.LocalPlayer.CoinAmount.Value - oldM) .. "$" .. " | Currently at "..tostring(game.Players.LocalPlayer.CoinAmount.Value).."$"}
-            MessageData = HS:JSONEncode(MessageData)
-            syn.request({Url = WebhookURL, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = MessageData})
+            print("[UTG AUTOFARM] - Collected " .. tostring(game.Players.LocalPlayer.CoinAmount.Value - oldM) .. "$" .. " | Currently at "..tostring(game.Players.LocalPlayer.CoinAmount.Value).."$")
         end
     end)
 end)
