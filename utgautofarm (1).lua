@@ -1,8 +1,31 @@
+local ScreenGui = Instance.new("ScreenGui")
+local ProfitLabel = Instance.new("TextLabel")
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ResetOnSpawn = false
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.DisplayOrder = 1000
+ProfitLabel.Parent = ScreenGui
+ProfitLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ProfitLabel.BackgroundTransparency = 1.000
+ProfitLabel.Position = UDim2.new(0.5, -190, 0.5, -25)
+ProfitLabel.Size = UDim2.new(0, 380, 0, 50)
+ProfitLabel.Font = Enum.Font.Arcade
+ProfitLabel.Text = "Profit - 0$"
+ProfitLabel.TextColor3 = Color3.fromRGB(4, 255, 0)
+ProfitLabel.TextScaled = true
+ProfitLabel.TextSize = 14.000
+ProfitLabel.TextStrokeColor3 = Color3.fromRGB(8, 7, 7)
+ProfitLabel.TextStrokeTransparency = 0.000
+ProfitLabel.TextWrapped = true
+
+local function Profit(Status)
+    ProfitLabel.Text = Status
+end
+
 -- this is really messy and ineffienct, but it works i guess, feel free to improve
 
 game:GetService("ReplicatedStorage").RemoteEvents:Destroy() -- lazy anticheat bypass
-
-local MessageData = {["content"] = "Money - " .. tostring(game.Players.LocalPlayer.CoinAmount.Value)}
 
 local opos = Vector3.new(500,100,500) -- random spot outside da map
 
@@ -85,7 +108,7 @@ moolahfolder.ChildAdded:Connect(function(v)
         wait(game.Players.LocalPlayer:GetNetworkPing() + 0.65)
         ALPos.Position = opos
         if game.Players.LocalPlayer.CoinAmount.Value > oldM then
-            print("[UTG AUTOFARM] - Collected " .. tostring(game.Players.LocalPlayer.CoinAmount.Value - oldM) .. "$" .. " | Currently at "..tostring(game.Players.LocalPlayer.CoinAmount.Value).."$")
+	    Profit(tostring(game.Players.LocalPlayer.CoinAmount.Value - oldM).."$")
         end
     end)
 end)
