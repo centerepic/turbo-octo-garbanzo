@@ -32,12 +32,13 @@ local opos = Vector3.new(500,100,500) -- random spot outside da map
 task.spawn(function()
     game:GetService("RunService").Heartbeat:Connect(function() workspace.Gravity = 0 end) -- idk why just for "stability"
 end)
+
 task.spawn(function()
 while wait(0.1) do
-    for _, child in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-			if child:IsA("BasePart") and child.CanCollide == true and child.Name ~= floatName then
-				child.CanCollide = false
-			end
+    for _, child in ipairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+		if child:IsA("BasePart") and child.CanCollide == true then
+			child.CanCollide = false
+		end
         end
     end
 end)
@@ -100,15 +101,16 @@ for i,v in pairs(workspace:GetChildren()) do
     end
 end
 
+oldM = game.Players.LocalPlayer.CoinAmount.Value
+
 moolahfolder.ChildAdded:Connect(function(v)
-    oldM = game.Players.LocalPlayer.CoinAmount.Value
     pcall(function()
         task.wait(0.5)
         ALPos.Position = v:FindFirstChildOfClass("MeshPart").Position
         wait(game.Players.LocalPlayer:GetNetworkPing() + 0.65)
         ALPos.Position = opos
         if game.Players.LocalPlayer.CoinAmount.Value > oldM then
-	    Profit(tostring(game.Players.LocalPlayer.CoinAmount.Value - oldM).."$")
+	    Profit("Profit - "..tostring(game.Players.LocalPlayer.CoinAmount.Value - oldM).."$")
         end
     end)
 end)
