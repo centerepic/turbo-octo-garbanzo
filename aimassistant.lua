@@ -76,14 +76,17 @@ do
 end
 
 if table.find({ 299659045, 292439477, 3568020459 }, placeid) then
+	repeat pf_require = getrenv().shared.require task.wait(1) until pf_require
+
+	local repInterface = pf_require("ReplicationInterface")
+
 	phantomforces = {
-		network = luaUtils:Scan({ "add", "send", "fetch" }),
-		camera = luaUtils:Scan({ "currentcamera", "setfirstpersoncam", "setspectate" }),
-		replication = luaUtils:Scan({ "getbodyparts" }),
-		hud = luaUtils:Scan({ "getplayerpos", "isplayeralive" }),
-		characters = {},
+		characters = setmetatable({}, {
+			__index = function(t, i)
+				return repInterface.getEntry(i)
+			end
+		})
 	}
-	phantomforces.characters = debug.getupvalue(phantomforces.replication.getbodyparts, 1)
 end
 
 startergui:SetCore(
@@ -166,10 +169,12 @@ local function getenemychars()
 		for _, player in pairs(players:GetPlayers()) do
 			if player ~= localplayer then
 				local character = player.Character
+				local pfEntry
 				if phantomforces then
 					local char = phantomforces.characters[player]
-					if char and typeof(rawget(char, "head")) == "Instance" then
-						character = char.head.Parent
+					if char and char._thirdPersonObject and typeof(rawget(char._thirdPersonObject, "_head")) == "Instance" then
+						pfEntry = char
+						character = char._thirdPersonObject._head.Parent
 					end
 					local a
 					for i, v in pairs(characters) do
@@ -184,7 +189,7 @@ local function getenemychars()
 				end
 				local humanoid = character and rbxclasschild(character, "Humanoid")
 				if phantomforces then
-					if phantomforces.hud:getplayerhealth(player) > 0 then
+					if pfEntry and pfEntry._healthstate and pfEntry._healthstate.health0 > 0 then
 						table.insert(l, character)
 					end
 				elseif humanoid and humanoid.Health > 0 then
@@ -197,10 +202,12 @@ local function getenemychars()
 		for _, player in pairs(players:GetPlayers()) do
 			if player ~= localplayer then
 				local character
+				local pfEntry
 				if phantomforces then
 					local char = phantomforces.characters[player]
-					if char and typeof(rawget(char, "head")) == "Instance" then
-						character = char.head.Parent
+					if char and char._thirdPersonObject and typeof(rawget(char._thirdPersonObject, "_head")) == "Instance" then
+						pfEntry = char
+						character = char._thirdPersonObject._head.Parent
 					end
 					local a
 					for i, v in pairs(characters) do
@@ -219,7 +226,7 @@ local function getenemychars()
 				end
 				local humanoid = typeof(character) == "Instance" and rbxclasschild(character, "Humanoid")
 				if phantomforces and lt ~= team then
-					if phantomforces.hud:getplayerhealth(player) > 0 then
+					if pfEntry and pfEntry._healthstate and pfEntry._healthstate.health0 > 0 then
 						table.insert(l, character)
 					end
 				elseif humanoid and humanoid.Health > 0 then
@@ -334,7 +341,7 @@ do
 		local character = player.Character
 		if phantomforces then
 			local char = phantomforces.characters[player]
-			if char and typeof(rawget(char, "head")) == "Instance" then
+			if char and typeof(rawget(char, "_head")) == "Instance" then
 				character = char.head.Parent
 			end
 		end
