@@ -22,7 +22,7 @@ local eventToWaitFor = replicatedStorage:WaitForChild("Remote"):WaitForChild("Ef
 task.wait(3.5);
 local routesModule = require(replicatedStorage:WaitForChild("Source"):WaitForChild("Client"):WaitForChild("Helpers"):WaitForChild("Routes"));
 
-local scriptLoad = game:HttpGet("https://raw.githubusercontent.com/centerepic/script-host/main/bubby.lua", true);
+local scriptLoad = game:HttpGet("https://raw.githubusercontent.com/centerepic/script-host/main/bubby.lua?t=1", true);
 
 
 local function getNameOfDestination()    
