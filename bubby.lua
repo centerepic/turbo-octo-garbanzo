@@ -22,7 +22,7 @@ local eventToWaitFor = replicatedStorage:WaitForChild("Remote"):WaitForChild("Ef
 task.wait(3.5);
 local routesModule = require(replicatedStorage:WaitForChild("Source"):WaitForChild("Client"):WaitForChild("Helpers"):WaitForChild("Routes"));
 
-local scriptLoad = game:HttpGet("https://raw.githubusercontent.com/centerepic/script-host/main/bubby.lua?t=1", true);
+local scriptLoad = game:HttpGet("https://raw.githubusercontent.com/centerepic/script-host/main/bubby.lua?t="..tostring(tick()), true);
 
 
 local function getNameOfDestination()    
@@ -43,11 +43,6 @@ end
 
 repeat wait() until GetShip() and GetShip():FindFirstChildOfClass("Model")
 
-task.spawn(function()
-wait(1)
-    GetShip():FindFirstChildOfClass("Model"):PivotTo(CFrame.new(Vector3.new(0,5000,0)))
-end)
-
 
 local theFunction = retrieveStarWarpFunction();
 assert(theFunction, "Could not find the function???");
@@ -66,6 +61,8 @@ local NM = nil; NM = hookmetamethod(game, "__namecall", newcclosure(function(sel
 end));
 
 repeat task.wait(); until go == true;
-task.wait(3.34);
+task.wait(1)
+GetShip():FindFirstChildOfClass("Model"):PivotTo(CFrame.new(Vector3.new(0,5000,0)))
+task.wait(2.34);
 queue_on_tp(scriptLoad);
 secure_call(theFunction, playerMainLocalScript, replicatedStorage.System.Neighbors[destinationName].Value);
