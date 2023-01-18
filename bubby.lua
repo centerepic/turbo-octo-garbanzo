@@ -19,11 +19,10 @@ local replicatedStorage = game:GetService("ReplicatedStorage");
 local localPlayer = game:GetService("Players").LocalPlayer
 local playerMainLocalScript = localPlayer:WaitForChild("PlayerScripts"):WaitForChild("Game");
 local eventToWaitFor = replicatedStorage:WaitForChild("Remote"):WaitForChild("Effects"):WaitForChild("ExitWarpEffect");
-task.wait(3.5);
+task.wait(4);
 local routesModule = require(replicatedStorage:WaitForChild("Source"):WaitForChild("Client"):WaitForChild("Helpers"):WaitForChild("Routes"));
 
 local scriptLoad = game:HttpGet("https://raw.githubusercontent.com/centerepic/script-host/main/bubby.lua?t="..tostring(tick()), true);
-
 
 local function getNameOfDestination()    
     return routesModule.getNextSystemName();
@@ -61,8 +60,7 @@ local NM = nil; NM = hookmetamethod(game, "__namecall", newcclosure(function(sel
 end));
 
 repeat task.wait(); until go == true;
-task.wait(1)
 GetShip():FindFirstChildOfClass("Model"):PivotTo(CFrame.new(Vector3.new(0,5000,0)))
-task.wait(2.34);
+task.wait(3.34);
 queue_on_tp(scriptLoad);
 secure_call(theFunction, playerMainLocalScript, replicatedStorage.System.Neighbors[destinationName].Value);
