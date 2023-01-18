@@ -44,9 +44,8 @@ end
 repeat wait() until GetShip() and GetShip():FindFirstChildOfClass("Model")
 
 task.spawn(function()
-    while wait() do
-        GetShip():FindFirstChildOfClass("Model"):PivotTo(CFrame.new(Vector3.new(0,5000,0)))
-    end
+wait(1)
+    GetShip():FindFirstChildOfClass("Model"):PivotTo(CFrame.new(Vector3.new(0,5000,0)))
 end)
 
 
