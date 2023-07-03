@@ -61,6 +61,6 @@ end));
 
 repeat task.wait(); until go == true;
 GetShip():FindFirstChildOfClass("Model"):PivotTo(CFrame.new(Vector3.new(0,5000,0)))
-task.wait(3.34);
+task.wait(5);
 queue_on_tp(scriptLoad);
 secure_call(theFunction, playerMainLocalScript, replicatedStorage.System.Neighbors[destinationName].Value);
