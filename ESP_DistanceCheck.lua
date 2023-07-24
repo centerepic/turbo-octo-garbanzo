@@ -364,6 +364,7 @@ local function CharAdded(char)
                 ESP:Add(char, {
 		    Box = true,
                     Name = p.Name,
+		    MaxDistance = function() return ESP.PlayerDistance end,
                     Player = p,
                     PrimaryPart = c
                 })
