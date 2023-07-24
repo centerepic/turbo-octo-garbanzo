@@ -214,7 +214,7 @@ function boxBase:Update()
         Torso = cf * ESP.BoxShift
     }
 
-    if ESP.Boxes then
+    if ESP.Boxes and self.BoxVisible then
         local TopLeft, Vis1 = WorldToViewportPoint(cam, locs.TopLeft.p)
         local TopRight, Vis2 = WorldToViewportPoint(cam, locs.TopRight.p)
         local BottomLeft, Vis3 = WorldToViewportPoint(cam, locs.BottomLeft.p)
@@ -283,6 +283,7 @@ function ESP:Add(obj, options)
         Name = options.Name or obj.Name,
 	MaxDistance = options.MaxDistance or 1000,
         Type = "Box",
+	BoxVisible = options.Box,
         Color = options.Color --[[or self:GetColor(obj)]],
         Size = options.Size or self.BoxSize,
         Object = obj,
@@ -361,6 +362,7 @@ local function CharAdded(char)
             if c.Name == "HumanoidRootPart" then
                 ev:Disconnect()
                 ESP:Add(char, {
+		    Box = true,
                     Name = p.Name,
                     Player = p,
                     PrimaryPart = c
@@ -369,6 +371,7 @@ local function CharAdded(char)
         end)
     else
         ESP:Add(char, {
+	    Box = true,
             Name = p.Name,
             Player = p,
             PrimaryPart = char.HumanoidRootPart
