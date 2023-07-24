@@ -176,10 +176,18 @@ function boxBase:Update()
     if not workspace:IsAncestorOf(self.PrimaryPart) and not self.RenderInNil then
         allow = false
     end
+
+    local MaxDistance = 1000
+    if type(self.MaxDistance) == 'function' then
+	MaxDistance = self.MaxDistance()
+    else
+	MaxDistance = self.MaxDistance
+    end
     local cft = self.PrimaryPart.CFrame
-    if (cam.CFrame.p - cft.p).magnitude > self.MaxDistance then
+    if (cam.CFrame.p - cft.p).magnitude > MaxDistance then
 	allow = false
     end
+	
     if not allow then
         for i,v in pairs(self.Components) do
             v.Visible = false
