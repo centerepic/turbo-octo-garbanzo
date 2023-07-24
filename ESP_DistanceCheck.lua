@@ -157,8 +157,7 @@ function boxBase:Update()
     if ESP.Highlighted == self.Object then
        color = ESP.HighlightColor
     else
-        color = Color3.fromRGB(255 * math.abs((self.Player.Character:FindFirstChild("Humanoid").Health - self.Player.Character:FindFirstChild("Humanoid").MaxHealth)/100),255 * math.abs((self.Player.Character:FindFirstChild("Humanoid").Health / self.Player.Character:FindFirstChild("Humanoid").MaxHealth)),0)
-	or self.Color or self.ColorDynamic and self:ColorDynamic(self.Player) or ESP:GetColor(self.Object) or ESP.Color
+        color = self.Color or self.ColorDynamic and self:ColorDynamic(self.Player) or ESP:GetColor(self.Object) or ESP.Color
     end
 
     local allow = true
@@ -177,8 +176,8 @@ function boxBase:Update()
     if not workspace:IsAncestorOf(self.PrimaryPart) and not self.RenderInNil then
         allow = false
     end
-	local cft = self.PrimaryPart.CFrame
-    if (cam.CFrame.p - cft.p).magnitude > getgenv().ESPDistance then
+    local cft = self.PrimaryPart.CFrame
+    if (cam.CFrame.p - cft.p).magnitude > self.MaxDistance then
 	allow = false
     end
     if not allow then
@@ -274,6 +273,7 @@ function ESP:Add(obj, options)
 
     local box = setmetatable({
         Name = options.Name or obj.Name,
+	MaxDistance = options.MaxDistance or 1000,
         Type = "Box",
         Color = options.Color --[[or self:GetColor(obj)]],
         Size = options.Size or self.BoxSize,
