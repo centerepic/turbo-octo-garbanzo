@@ -18,7 +18,7 @@ local ESP = {
     AttachShift = 1,
     TeamMates = true,
     Players = true,
-    
+    PlayerDistance = 1000,
     Objects = setmetatable({}, {__mode="kv"}),
     Overrides = {}
 }
@@ -373,6 +373,7 @@ local function CharAdded(char)
         ESP:Add(char, {
 	    Box = true,
             Name = p.Name,
+	    MaxDistance = function() return ESP.PlayerDistance end,
             Player = p,
             PrimaryPart = char.HumanoidRootPart
         })
