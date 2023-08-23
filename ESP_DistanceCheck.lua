@@ -396,6 +396,11 @@ local function CharAdded(char)
             PrimaryPart = char.HumanoidRootPart,
             ColorDynamic = function(TargetPlayer : Player)
                 local Char = TargetPlayer.Character
+
+                if not Char then
+                    return ESP.Color
+                end
+
                 local Hum = Char:FindFirstChildOfClass("Humanoid")
 
                 if Char and Hum then
