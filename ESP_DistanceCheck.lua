@@ -368,11 +368,10 @@ local function CharAdded(char)
 		            MaxDistance = function() return ESP.PlayerDistance end,
                     Player = p,
                     PrimaryPart = c,
-                    ColorDynamic = function(TargetPlayer : Player)
+                    ColorDynamic = function(Object : table)
 
-                        print(TargetPlayer:GetFullName())
-
-                        local Char = TargetPlayer.Parent
+                        local Player = Object.Player
+                        local Char = Player.Character
         
                         if not Char then
                             return ESP.Color
@@ -402,11 +401,10 @@ local function CharAdded(char)
 	        MaxDistance = function() return ESP.PlayerDistance end,
             Player = p,
             PrimaryPart = char.HumanoidRootPart,
-            ColorDynamic = function(TargetPlayer : Player)
+            ColorDynamic = function(Object : table)
 
-                print(TargetPlayer:GetFullName())
-
-                local Char = TargetPlayer
+                local Player = Object.Player
+                local Char = Player.Character
 
                 if not Char then
                     return ESP.Color
