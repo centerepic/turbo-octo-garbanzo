@@ -369,6 +369,9 @@ local function CharAdded(char)
                     Player = p,
                     PrimaryPart = c,
                     ColorDynamic = function(TargetPlayer : Player)
+
+                        print(TargetPlayer:GetFullName())
+
                         local Char = TargetPlayer.Parent
         
                         if not Char then
@@ -400,6 +403,9 @@ local function CharAdded(char)
             Player = p,
             PrimaryPart = char.HumanoidRootPart,
             ColorDynamic = function(TargetPlayer : Player)
+
+                print(TargetPlayer:GetFullName())
+
                 local Char = TargetPlayer
 
                 if not Char then
