@@ -369,7 +369,7 @@ local function CharAdded(char)
                     Player = p,
                     PrimaryPart = c,
                     ColorDynamic = function(TargetPlayer : Player)
-                        local Char = TargetPlayer.Character
+                        local Char = TargetPlayer.Parent
         
                         if not Char then
                             return ESP.Color
@@ -400,7 +400,7 @@ local function CharAdded(char)
             Player = p,
             PrimaryPart = char.HumanoidRootPart,
             ColorDynamic = function(TargetPlayer : Player)
-                local Char = TargetPlayer.Character
+                local Char = TargetPlayer
 
                 if not Char then
                     return ESP.Color
