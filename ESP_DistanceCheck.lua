@@ -370,17 +370,22 @@ local function CharAdded(char)
                     PrimaryPart = c,
                     ColorDynamic = function(TargetPlayer : Player)
                         local Char = TargetPlayer.Character
+        
+                        if not Char then
+                            return ESP.Color
+                        end
+        
                         local Hum = Char:FindFirstChildOfClass("Humanoid")
-
+        
                         if Char and Hum then
                             local Health = Hum.Health
                             local MaxHealth = Hum.MaxHealth
                             local Percent = Health / MaxHealth
-
+        
                             local r = 255 - (Percent * 255)
                             local g = Percent * 255
                             local b = 0
-
+        
                             return Color3.fromRGB(r, g, b)
                         end
                     end
