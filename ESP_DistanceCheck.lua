@@ -1,3 +1,4 @@
+local Players = game:GetService("Players")
 
 -- added custom color coding for health
 -- will break if used on anything but players
@@ -362,21 +363,53 @@ local function CharAdded(char)
             if c.Name == "HumanoidRootPart" then
                 ev:Disconnect()
                 ESP:Add(char, {
-		    Box = true,
+		            Box = true,
                     Name = p.Name,
-		    MaxDistance = function() return ESP.PlayerDistance end,
+		            MaxDistance = function() return ESP.PlayerDistance end,
                     Player = p,
-                    PrimaryPart = c
+                    PrimaryPart = c,
+                    ColorDynamic = function(TargetPlayer : Player)
+                        local Char = TargetPlayer.Character
+                        local Hum = Char:FindFirstChildOfClass("Humanoid")
+
+                        if Char and Hum then
+                            local Health = Hum.Health
+                            local MaxHealth = Hum.MaxHealth
+                            local Percent = Health / MaxHealth
+
+                            local r = 255 - (Percent * 255)
+                            local g = Percent * 255
+                            local b = 0
+
+                            return Color3.fromRGB(r, g, b)
+                        end
+                    end
                 })
             end
         end)
     else
         ESP:Add(char, {
-	    Box = true,
+	        Box = true,
             Name = p.Name,
-	    MaxDistance = function() return ESP.PlayerDistance end,
+	        MaxDistance = function() return ESP.PlayerDistance end,
             Player = p,
-            PrimaryPart = char.HumanoidRootPart
+            PrimaryPart = char.HumanoidRootPart,
+            ColorDynamic = function(TargetPlayer : Player)
+                local Char = TargetPlayer.Character
+                local Hum = Char:FindFirstChildOfClass("Humanoid")
+
+                if Char and Hum then
+                    local Health = Hum.Health
+                    local MaxHealth = Hum.MaxHealth
+                    local Percent = Health / MaxHealth
+
+                    local r = 255 - (Percent * 255)
+                    local g = Percent * 255
+                    local b = 0
+
+                    return Color3.fromRGB(r, g, b)
+                end
+            end
         })
     end
 end
