@@ -203,7 +203,13 @@ function boxBase:Update()
         TagPos = cf * ESP.BoxShift * CFrame.new(0,size.Y/2,0),
         Torso = cf * ESP.BoxShift
     }
-
+	if (cam.CFrame.p - cf.p).magnitude > getgenv().ESPDistance then
+		self.Components.Quad.Visible = false
+		self.Components.Name.Visible = false
+            	self.Components.Distance.Visible = false
+		self.Components.Tracer.Visible = false
+		return
+	end
     if ESP.Boxes then
         local TopLeft, Vis1 = WorldToViewportPoint(cam, locs.TopLeft.p)
         local TopRight, Vis2 = WorldToViewportPoint(cam, locs.TopRight.p)
